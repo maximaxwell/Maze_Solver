@@ -171,10 +171,14 @@ public class Maze extends javax.swing.JFrame {
     }
 
     public void mouseListener() {
+        Grid grid = this.grid;
+        GridHandler handler = new GridHandler(grid);
         this.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("X:" + e.getX() + " Y:" + e.getY());
+                Grid newGrid = handler.toggleWallFromMouseClick(grid, e.getX(), e.getY());
+                refreshGridWithNew(newGrid);
             }
 
             @Override
@@ -196,8 +200,14 @@ public class Maze extends javax.swing.JFrame {
         }
         );
     }
-
-
+    
+    public void refreshGridWithNew(Grid newGrid) {    
+        jPanel1.remove(this.grid);
+        this.grid = newGrid;
+        jPanel1.add(this.grid, java.awt.BorderLayout.CENTER);
+        this.revalidate();
+        this.repaint();
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton redrawButton;

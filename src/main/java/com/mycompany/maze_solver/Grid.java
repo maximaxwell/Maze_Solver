@@ -13,15 +13,14 @@ import javax.swing.*;
  */
 public class Grid extends JPanel {
 
-    private int columns = 20;
-    private int rows = 20;
-    private int pixelSize = 20;
+    private int columns = 30;
+    private int rows = 30;
+    private int pixelSize = 14;
     private int[][] gridLayout = new int[rows][columns];
     private int startingX = 20;
     private int startingY = 20;
 
     public Grid() {
-        System.out.println("This should now be being displayed");
         for (int i = 0; i < columns; i++) {
             for (int j = 0; j < rows; j++) {
                 if (Math.random() <= 0.3) {

@@ -1,5 +1,9 @@
 package com.mycompany.maze_solver;
 
+import java.awt.Component;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -11,12 +15,16 @@ package com.mycompany.maze_solver;
 public class Maze extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Maze.class.getName());
+    private Grid grid = new Grid();
 
     /**
      * Creates new form Maze
      */
     public Maze() {
         initComponents();
+        getMainPanel().setLayout(new java.awt.BorderLayout()); // so Grid fills space
+        getMainPanel().add(grid, java.awt.BorderLayout.CENTER);
+        mouseListener();
     }
 
     /**
@@ -54,6 +62,11 @@ public class Maze extends javax.swing.JFrame {
         selectLabel.setText("Select a searching algorithm");
 
         solveButton.setText("Solve");
+        solveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                solveButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -101,13 +114,24 @@ public class Maze extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void redrawButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redrawButtonActionPerformed
+        /*
         Maze maze = new Maze();
         maze.getMainPanel().setLayout(new java.awt.BorderLayout()); // so Grid fills space
-        maze.getMainPanel().add(new Grid(), java.awt.BorderLayout.CENTER);
+        maze.getMainPanel().add(grid, java.awt.BorderLayout.CENTER);
         maze.pack();
         maze.setVisible(true);
         this.dispose();
+         */
+        jPanel1.remove(this.grid);
+        this.grid = new Grid();
+        jPanel1.add(this.grid, java.awt.BorderLayout.CENTER);
+        this.revalidate();
+        this.repaint();
     }//GEN-LAST:event_redrawButtonActionPerformed
+
+    private void solveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solveButtonActionPerformed
+
+    }//GEN-LAST:event_solveButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -137,6 +161,42 @@ public class Maze extends javax.swing.JFrame {
     public javax.swing.JPanel getMainPanel() {
         return jPanel1;
     }
+
+    public Grid getGrid() {
+        return grid;
+    }
+
+    public void setGrid(Grid grid) {
+        this.grid = grid;
+    }
+
+    public void mouseListener() {
+        this.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("X:" + e.getX() + " Y:" + e.getY());
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+
+        }
+        );
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;

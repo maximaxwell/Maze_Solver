@@ -33,10 +33,10 @@ public class GridHandler {
         int[][] layout = newGrid.getGridLayout();
         int column = columnFromX(newGrid, x);
         int row = rowFromY(newGrid, y);
-        if(column < 0 | row < 0) {
+        if (column < 0 | row < 0) {
             return newGrid;
         }
-        if(layout[row][column] == 1) {
+        if (layout[row][column] == 1) {
             layout[row][column] = 0;
         } else {
             layout[row][column] = 1;
@@ -46,15 +46,82 @@ public class GridHandler {
     }
 
     public Grid toggleWallFromMouseClick(int x, int y) { // Toggles a wall from the mouse coordinates given to the grid stored in this class
+        Grid newGrid = storedGrid;
+        int[][] layout = newGrid.getGridLayout();
+        int column = columnFromX(newGrid, x);
+        int row = rowFromY(newGrid, y);
+        if (column < 0 | row < 0) {
+            return newGrid;
+        }
+        if (layout[row][column] == 1) {
+            layout[row][column] = 0;
+        } else {
+            layout[row][column] = 1;
+        }
+        newGrid.setGridLayout(layout);
+        storedGrid = newGrid;
         return storedGrid;
     }
 
-    public Grid addCostFromMouseClick(Grid grid, int x, int y, int cost) { // Adds a costed path from the coords to a given grid
+    public Grid setCostFromMouseClick(Grid grid, int x, int y, int cost) { // Adds a costed path from the coords to a given grid
         Grid newGrid = grid;
+        int[][] layout = newGrid.getGridLayout();
+        int column = columnFromX(newGrid, x);
+        int row = rowFromY(newGrid, y);
+        if (column < 0 | row < 0) {
+            return newGrid;
+        }
+        if (cost == 0) {
+            layout[row][column] = 0;
+        } else {
+            layout[row][column] = cost + 1;
+        }
+        newGrid.setGridLayout(layout);
         return newGrid;
     }
 
-    public Grid addCostFromMouseClick(int x, int y, int cost) { // Adds a costed path from the coords to the stored grid
+    public Grid setCostFromMouseClick(int x, int y, int cost) { // Adds a costed path from the coords to the stored grid
+        Grid newGrid = storedGrid;
+        int[][] layout = newGrid.getGridLayout();
+        int column = columnFromX(newGrid, x);
+        int row = rowFromY(newGrid, y);
+        if (column < 0 | row < 0) {
+            return newGrid;
+        }
+        if (cost == 0) {
+            layout[row][column] = 0;
+        } else {
+            layout[row][column] = cost + 1;
+        }
+        newGrid.setGridLayout(layout);
+        storedGrid = newGrid;
+        return storedGrid;
+    }
+
+    public Grid setValueFromMouseClick(Grid grid, int x, int y, int cost) {
+        Grid newGrid = grid;
+        int[][] layout = newGrid.getGridLayout();
+        int column = columnFromX(newGrid, x);
+        int row = rowFromY(newGrid, y);
+        if (column < 0 | row < 0) {
+            return newGrid;
+        }
+        layout[row][column] = cost;
+        newGrid.setGridLayout(layout);
+        return newGrid;
+    }
+
+    public Grid setValueFromMouseClick(int x, int y, int cost) {
+        Grid newGrid = storedGrid;
+        int[][] layout = newGrid.getGridLayout();
+        int column = columnFromX(newGrid, x);
+        int row = rowFromY(newGrid, y);
+        if (column < 0 | row < 0) {
+            return newGrid;
+        }
+        layout[row][column] = cost;
+        newGrid.setGridLayout(layout);
+        storedGrid = newGrid;
         return storedGrid;
     }
 
@@ -65,8 +132,8 @@ public class GridHandler {
     }
 
     public int columnFromX(int x) { // Gets the column position from the mouse coords from the stored grid
-
-        return -1;
+        float output = Math.round(((x - storedGrid.getStartingX()) - 0.5) / storedGrid.getPixelSize()) - 1;
+        return (int) output;
     }
 
     public int rowFromY(Grid grid, int y) { // Gets the row position from the mouse coords from a given grid
@@ -76,8 +143,8 @@ public class GridHandler {
     }
 
     public int rowFromY(int y) { // Gets the row position from the mouse coords from the stored grid
-
-        return -1;
+        float output = Math.round(((y - storedGrid.getStartingY())) / storedGrid.getPixelSize()) - 2;
+        return (int) output;
     }
 
 }

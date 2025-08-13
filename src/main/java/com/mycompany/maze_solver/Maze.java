@@ -16,6 +16,8 @@ public class Maze extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Maze.class.getName());
     private Grid grid = new Grid();
+    private boolean startVariablesSelected = true;
+    private boolean endVariablesSelected = true;
 
     /**
      * Creates new form Maze
@@ -37,7 +39,7 @@ public class Maze extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        redrawButton = new javax.swing.JButton();
+        randomiseButton = new javax.swing.JButton();
         selectBox = new javax.swing.JComboBox<>();
         selectLabel = new javax.swing.JLabel();
         solveButton = new javax.swing.JButton();
@@ -47,11 +49,11 @@ public class Maze extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(700, 500));
 
-        redrawButton.setText("Redraw");
-        redrawButton.setToolTipText("");
-        redrawButton.addActionListener(new java.awt.event.ActionListener() {
+        randomiseButton.setText("Randomise");
+        randomiseButton.setToolTipText("");
+        randomiseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                redrawButtonActionPerformed(evt);
+                randomiseButtonActionPerformed(evt);
             }
         });
 
@@ -77,7 +79,7 @@ public class Maze extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(selectBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(selectLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(redrawButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(randomiseButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(solveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(25, 25, 25))
         );
@@ -91,7 +93,7 @@ public class Maze extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(solveButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(redrawButton)
+                .addComponent(randomiseButton)
                 .addContainerGap(302, Short.MAX_VALUE))
         );
 
@@ -113,7 +115,7 @@ public class Maze extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void redrawButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redrawButtonActionPerformed
+    private void randomiseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_randomiseButtonActionPerformed
         /*
         Maze maze = new Maze();
         maze.getMainPanel().setLayout(new java.awt.BorderLayout()); // so Grid fills space
@@ -127,10 +129,12 @@ public class Maze extends javax.swing.JFrame {
         jPanel1.add(this.grid, java.awt.BorderLayout.CENTER);
         this.revalidate();
         this.repaint();
-    }//GEN-LAST:event_redrawButtonActionPerformed
+    }//GEN-LAST:event_randomiseButtonActionPerformed
 
     private void solveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solveButtonActionPerformed
-
+        selectLabel.setText("Select a starting point.");
+        startVariablesSelected = false;
+        endVariablesSelected = false;
     }//GEN-LAST:event_solveButtonActionPerformed
 
     /**
@@ -176,8 +180,20 @@ public class Maze extends javax.swing.JFrame {
         this.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("X:" + e.getX() + " Y:" + e.getY());
-                Grid newGrid = handler.toggleWallFromMouseClick(grid, e.getX(), e.getY());
+                //System.out.println("X:" + e.getX() + " Y:" + e.getY());
+                Grid newGrid = grid;
+                if (startVariablesSelected == false) {
+                    newGrid = handler.setValueFromMouseClick(grid, e.getX(), e.getY(), -3);
+                    refreshGridWithNew(newGrid);
+                    selectLabel.setText("Select an end point.");
+                    startVariablesSelected = true;
+                } else if (endVariablesSelected == false) {
+                    newGrid = handler.setValueFromMouseClick(grid, e.getX(), e.getY(), -4);
+                    selectLabel.setText("Solving...");
+                    endVariablesSelected = true;
+                } else {
+                    newGrid = handler.toggleWallFromMouseClick(grid, e.getX(), e.getY());
+                }
                 refreshGridWithNew(newGrid);
             }
 
@@ -200,8 +216,8 @@ public class Maze extends javax.swing.JFrame {
         }
         );
     }
-    
-    public void refreshGridWithNew(Grid newGrid) {    
+
+    public void refreshGridWithNew(Grid newGrid) {
         jPanel1.remove(this.grid);
         this.grid = newGrid;
         jPanel1.add(this.grid, java.awt.BorderLayout.CENTER);
@@ -210,7 +226,7 @@ public class Maze extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JButton redrawButton;
+    private javax.swing.JButton randomiseButton;
     private javax.swing.JComboBox<String> selectBox;
     private javax.swing.JLabel selectLabel;
     private javax.swing.JButton solveButton;

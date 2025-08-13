@@ -40,7 +40,19 @@ public class Grid extends JPanel {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 if (gridLayout[i][j] == 1) {
-                    g.setColor(Color.BLACK);
+                    g.setColor(Color.BLACK); // Wall case
+                } else if (gridLayout[i][j] == 0) {
+                    g.setColor(Color.WHITE); // 0 Weighted path case
+                } else if (gridLayout[i][j] == -1) {
+                    g.setColor(Color.RED); // Error case
+                } else if (gridLayout[i][j] == -2) {
+                    g.setColor(Color.BLUE); // Visited case
+                } else if (gridLayout[i][j] == -3) {
+                    g.setColor(Color.ORANGE); // Start point
+                } else if (gridLayout[i][j] == -4) {
+                    g.setColor(Color.ORANGE); // End point
+                } else if (gridLayout[i][j] == -5) {
+                    g.setColor(Color.GREEN); // Shortest path
                 } else {
                     g.setColor(Color.WHITE);
                 }
@@ -112,7 +124,5 @@ public class Grid extends JPanel {
     public void setStartingY(int startingY) {
         this.startingY = startingY;
     }
-    
-    
 
 }

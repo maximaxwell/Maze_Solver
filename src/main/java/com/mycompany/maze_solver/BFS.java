@@ -9,5 +9,24 @@ package com.mycompany.maze_solver;
  * @author maxwe
  */
 public class BFS {
+    Grid grid = new Grid();
+    
+    public BFS (Grid grid) {
+        this.grid = grid;
+    }
+
+    public Grid getGrid() {
+        return grid;
+    }
+
+    public void setGrid(Grid grid) {
+        this.grid = grid;
+    }
+    
+    public Grid run() {
+        
+        return this.grid;
+    }
+    
     
 }

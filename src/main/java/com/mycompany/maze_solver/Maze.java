@@ -18,6 +18,9 @@ public class Maze extends javax.swing.JFrame {
     private Grid grid = new Grid();
     private boolean startVariablesSelected = true;
     private boolean endVariablesSelected = true;
+    private boolean createWall = false;
+    private Coord start = new Coord();
+    private Coord end = new Coord();
 
     /**
      * Creates new form Maze
@@ -87,7 +90,7 @@ public class Maze extends javax.swing.JFrame {
         costLabel.setForeground(new java.awt.Color(0, 0, 0));
         costLabel.setText("Cost: 0");
 
-        wallToggleButton.setText("Wall");
+        wallToggleButton.setText("Weighted path");
         wallToggleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 wallToggleButtonActionPerformed(evt);
@@ -166,6 +169,8 @@ public class Maze extends javax.swing.JFrame {
     }//GEN-LAST:event_randomiseButtonActionPerformed
 
     private void solveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solveButtonActionPerformed
+        start.reset();
+        end.reset();
         selectLabel.setText("Select a starting point.");
         startVariablesSelected = false;
         endVariablesSelected = false;
@@ -180,8 +185,10 @@ public class Maze extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (wallToggleButton.getText().equals("Wall")) {
             wallToggleButton.setText("Weighted path");
+            createWall = false;
         } else {
             wallToggleButton.setText("Wall");
+            createWall = true;
         }
     }//GEN-LAST:event_wallToggleButtonActionPerformed
 
@@ -237,12 +244,39 @@ public class Maze extends javax.swing.JFrame {
                     refreshGridWithNew(newGrid);
                     selectLabel.setText("Select an end point.");
                     startVariablesSelected = true;
-                } else if (costSlider.getValue() != 0) {
-                    newGrid = handler.setValueFromMouseClick(grid, e.getX(), e.getY(), costSlider.getValue() + 1);
                 } else if (endVariablesSelected == false) {
                     newGrid = handler.setValueFromMouseClick(grid, e.getX(), e.getY(), -4);
-                    selectLabel.setText("Solving...");
                     endVariablesSelected = true;
+                    selectLabel.setText("Solving...");
+                    if (selectBox.getSelectedItem().toString().equals("A*")) {
+                        // A* algorithm
+
+                        
+                        
+                        // End
+                    } else if (selectBox.getSelectedItem().toString().equals("BFS")) {
+                        // BFS algorithm
+
+                        
+                        
+                        // End
+                    } else if (selectBox.getSelectedItem().toString().equals("DFS")) {
+                        // DFS algorithm
+
+                        
+                        
+                        // End
+                    } else if (selectBox.getSelectedItem().toString().equals("Random")) {
+                        // Random algorithm
+                        
+                        
+                        
+                        // End
+                    } else {
+                        System.out.println("An error has occured.");
+                    }
+                } else if (costSlider.getValue() != 0 && createWall == false) {
+                    newGrid = handler.setValueFromMouseClick(grid, e.getX(), e.getY(), costSlider.getValue() + 1);
                 } else {
                     newGrid = handler.toggleWallFromMouseClick(grid, e.getX(), e.getY());
                 }

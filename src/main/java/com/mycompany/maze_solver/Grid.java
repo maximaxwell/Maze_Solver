@@ -41,24 +41,49 @@ public class Grid extends JPanel {
             for (int j = 0; j < columns; j++) {
                 if (gridLayout[i][j] == 1) {
                     g.setColor(Color.BLACK); // Wall case
+                    g.fillRect(x, y, pixelSize, pixelSize);
+                    g.setColor(Color.GRAY);
+                    g.drawRect(x, y, pixelSize, pixelSize);
                 } else if (gridLayout[i][j] == 0) {
                     g.setColor(Color.WHITE); // 0 Weighted path case
+                    g.fillRect(x, y, pixelSize, pixelSize);
+                    g.setColor(Color.GRAY);
+                    g.drawRect(x, y, pixelSize, pixelSize);
                 } else if (gridLayout[i][j] == -1) {
                     g.setColor(Color.RED); // Error case
+                    g.fillRect(x, y, pixelSize, pixelSize);
+                    g.setColor(Color.GRAY);
+                    g.drawRect(x, y, pixelSize, pixelSize);
                 } else if (gridLayout[i][j] == -2) {
                     g.setColor(Color.BLUE); // Visited case
+                    g.fillRect(x, y, pixelSize, pixelSize);
+                    g.setColor(Color.GRAY);
+                    g.drawRect(x, y, pixelSize, pixelSize);
                 } else if (gridLayout[i][j] == -3) {
                     g.setColor(Color.ORANGE); // Start point
+                    g.fillRect(x, y, pixelSize, pixelSize);
+                    g.setColor(Color.GRAY);
+                    g.drawRect(x, y, pixelSize, pixelSize);
                 } else if (gridLayout[i][j] == -4) {
                     g.setColor(Color.ORANGE); // End point
+                    g.fillRect(x, y, pixelSize, pixelSize);
+                    g.setColor(Color.GRAY);
+                    g.drawRect(x, y, pixelSize, pixelSize);
+                    g.setColor(Color.BLACK);
+                    g.drawString("🏴", x + pixelSize / 4, y + (pixelSize / 8) * 10);
                 } else if (gridLayout[i][j] == -5) {
                     g.setColor(Color.GREEN); // Shortest path
+                    g.fillRect(x, y, pixelSize, pixelSize);
+                    g.setColor(Color.GRAY);
+                    g.drawRect(x, y, pixelSize, pixelSize);
                 } else {
                     g.setColor(Color.WHITE);
+                    g.fillRect(x, y, pixelSize, pixelSize);
+                    g.setColor(Color.GRAY);
+                    g.drawRect(x, y, pixelSize, pixelSize);
+                    g.setColor(Color.BLACK);
+                    g.drawString(String.valueOf(gridLayout[i][j] - 1), x + pixelSize / 4, y + (pixelSize / 8) * 10);
                 }
-                g.fillRect(x, y, pixelSize, pixelSize);
-                g.setColor(Color.GRAY);
-                g.drawRect(x, y, pixelSize, pixelSize);
                 x = x + pixelSize;
             }
             x = startingX;

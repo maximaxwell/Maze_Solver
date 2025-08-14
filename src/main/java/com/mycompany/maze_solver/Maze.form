@@ -59,6 +59,9 @@
                       <Component id="selectLabel" max="32767" attributes="0"/>
                       <Component id="randomiseButton" alignment="1" max="32767" attributes="0"/>
                       <Component id="solveButton" max="32767" attributes="0"/>
+                      <Component id="costSlider" pref="0" max="32767" attributes="0"/>
+                      <Component id="costLabel" max="32767" attributes="0"/>
+                      <Component id="wallToggleButton" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               </Group>
@@ -75,7 +78,13 @@
                   <Component id="solveButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="randomiseButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="302" max="32767" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="costSlider" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="costLabel" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="wallToggleButton" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="213" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -85,6 +94,8 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Randomise"/>
             <Property name="toolTipText" type="java.lang.String" value=""/>
+            <Property name="focusPainted" type="boolean" value="false"/>
+            <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="randomiseButtonActionPerformed"/>
@@ -122,6 +133,34 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="solveButtonActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JSlider" name="costSlider">
+          <Properties>
+            <Property name="maximum" type="int" value="10"/>
+            <Property name="value" type="int" value="0"/>
+          </Properties>
+          <Events>
+            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="costTextChanger"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="costLabel">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="0" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Cost: 0"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JToggleButton" name="wallToggleButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Wall"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="wallToggleButtonActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

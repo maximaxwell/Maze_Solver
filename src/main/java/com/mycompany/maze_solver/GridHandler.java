@@ -33,7 +33,7 @@ public class GridHandler {
         int[][] layout = newGrid.getGridLayout();
         int column = columnFromX(newGrid, x);
         int row = rowFromY(newGrid, y);
-        if (column < 0 | row < 0) {
+        if (column < 0 | row < 0 | column > newGrid.getColumns() - 1 | row > newGrid.getRows() - 1 | column > newGrid.getColumns() - 1 | row > newGrid.getRows() - 1) {
             return newGrid;
         }
         if (layout[row][column] == 1) {
@@ -50,7 +50,7 @@ public class GridHandler {
         int[][] layout = newGrid.getGridLayout();
         int column = columnFromX(newGrid, x);
         int row = rowFromY(newGrid, y);
-        if (column < 0 | row < 0) {
+        if (column < 0 | row < 0 | column > newGrid.getColumns() - 1 | row > newGrid.getRows() - 1) {
             return newGrid;
         }
         if (layout[row][column] == 1) {
@@ -68,7 +68,7 @@ public class GridHandler {
         int[][] layout = newGrid.getGridLayout();
         int column = columnFromX(newGrid, x);
         int row = rowFromY(newGrid, y);
-        if (column < 0 | row < 0) {
+        if (column < 0 | row < 0 | column > newGrid.getColumns() - 1 | row > newGrid.getRows() - 1) {
             return newGrid;
         }
         if (cost == 0) {
@@ -85,7 +85,7 @@ public class GridHandler {
         int[][] layout = newGrid.getGridLayout();
         int column = columnFromX(newGrid, x);
         int row = rowFromY(newGrid, y);
-        if (column < 0 | row < 0) {
+        if (column < 0 | row < 0 | column > newGrid.getColumns() - 1 | row > newGrid.getRows() - 1) {
             return newGrid;
         }
         if (cost == 0) {
@@ -103,7 +103,7 @@ public class GridHandler {
         int[][] layout = newGrid.getGridLayout();
         int column = columnFromX(newGrid, x);
         int row = rowFromY(newGrid, y);
-        if (column < 0 | row < 0) {
+        if (column < 0 | row < 0 | column > newGrid.getColumns() - 1 | row > newGrid.getRows() - 1) {
             return newGrid;
         }
         layout[row][column] = cost;
@@ -116,7 +116,7 @@ public class GridHandler {
         int[][] layout = newGrid.getGridLayout();
         int column = columnFromX(newGrid, x);
         int row = rowFromY(newGrid, y);
-        if (column < 0 | row < 0) {
+        if (column < 0 | row < 0 | column > newGrid.getColumns() - 1 | row > newGrid.getRows() - 1) {
             return newGrid;
         }
         layout[row][column] = cost;

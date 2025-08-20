@@ -39,6 +39,14 @@ public class Coord {
         this.x = -1;
         this.y = -1;
     }
+    
+    public boolean equals(Coord other) {
+        if(this.x == other.getX() && this.y == other.getY()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     
 

@@ -5,6 +5,7 @@
 package com.mycompany.maze_solver;
 
 import java.awt.*;
+import java.util.HashSet;
 import javax.swing.*;
 
 /**
@@ -19,6 +20,8 @@ public class Grid extends JPanel {
     private int[][] gridLayout = new int[rows][columns];
     private int startingX = 20;
     private int startingY = 20;
+    private Coord startPoint = new Coord();
+    private Coord endPoint = new Coord();
 
     public Grid() {
         for (int i = 0; i < columns; i++) {
@@ -64,6 +67,8 @@ public class Grid extends JPanel {
                     g.fillRect(x, y, pixelSize, pixelSize);
                     g.setColor(Color.GRAY);
                     g.drawRect(x, y, pixelSize, pixelSize);
+                    startPoint.setX(j);
+                    startPoint.setY(i);
                 } else if (gridLayout[i][j] == -4) {
                     g.setColor(Color.ORANGE); // End point
                     g.fillRect(x, y, pixelSize, pixelSize);
@@ -71,6 +76,8 @@ public class Grid extends JPanel {
                     g.drawRect(x, y, pixelSize, pixelSize);
                     g.setColor(Color.BLACK);
                     g.drawString("🏴", x + pixelSize / 4, y + (pixelSize / 8) * 10);
+                    endPoint.setX(j);
+                    endPoint.setY(i);
                 } else if (gridLayout[i][j] == -5) {
                     g.setColor(Color.GREEN); // Shortest path
                     g.fillRect(x, y, pixelSize, pixelSize);
@@ -100,6 +107,22 @@ public class Grid extends JPanel {
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(700, 500);
+    }
+
+    public Coord getStartPoint() {
+        return startPoint;
+    }
+
+    public void setStartPoint(Coord startPoint) {
+        this.startPoint = startPoint;
+    }
+
+    public Coord getEndPoint() {
+        return endPoint;
+    }
+
+    public void setEndPoint(Coord endPoint) {
+        this.endPoint = endPoint;
     }
 
     public int getColumns() {

@@ -244,33 +244,35 @@ public class Maze extends javax.swing.JFrame {
                     refreshGridWithNew(newGrid);
                     selectLabel.setText("Select an end point.");
                     startVariablesSelected = true;
+                    start = newGrid.getStartPoint();
                 } else if (endVariablesSelected == false) {
                     newGrid = handler.setValueFromMouseClick(grid, e.getX(), e.getY(), -4);
                     endVariablesSelected = true;
+                    end = newGrid.getEndPoint();
                     selectLabel.setText("Solving...");
                     if (selectBox.getSelectedItem().toString().equals("A*")) {
                         // A* algorithm
-
-                        
-                        
+                            
                         // End
                     } else if (selectBox.getSelectedItem().toString().equals("BFS")) {
                         // BFS algorithm
-
                         
+                        
+                        Coord current = start;
+                        System.out.println(current.equals(end));
+                        while (!(current.equals(end))) {
+                            System.out.println("Looping");
+                        }
+
                         
                         // End
                     } else if (selectBox.getSelectedItem().toString().equals("DFS")) {
                         // DFS algorithm
 
-                        
-                        
                         // End
                     } else if (selectBox.getSelectedItem().toString().equals("Random")) {
                         // Random algorithm
-                        
-                        
-                        
+
                         // End
                     } else {
                         System.out.println("An error has occured.");

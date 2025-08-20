@@ -4,12 +4,16 @@
  */
 package com.mycompany.maze_solver;
 
+import java.util.LinkedList;
+import java.util.Queue;
 /**
  *
  * @author maxwe
  */
 public class BFS {
     Grid grid = new Grid();
+    Queue<Coord> toVisit = new LinkedList<>();
+    
     
     public BFS (Grid grid) {
         this.grid = grid;

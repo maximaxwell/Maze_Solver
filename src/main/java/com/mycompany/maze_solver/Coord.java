@@ -9,15 +9,17 @@ package com.mycompany.maze_solver;
  * @author maxwe
  */
 public class Coord {
+
     private int x = -1;
     private int y = -1;
-    
+
     public Coord(int x, int y) {
         this.x = x;
         this.y = y;
     }
-    
-    public Coord() {}
+
+    public Coord() {
+    }
 
     public int getX() {
         return x;
@@ -34,20 +36,32 @@ public class Coord {
     public void setY(int y) {
         this.y = y;
     }
-    
+
     public void reset() {
         this.x = -1;
         this.y = -1;
     }
-    
-    public boolean equals(Coord other) {
-        if(this.x == other.getX() && this.y == other.getY()) {
-            return true;
-        } else {
-            return false;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true; // same object
         }
+        if (!(o instanceof Coord)) {
+            return false; // wrong type
+        }
+        Coord other = (Coord) o;
+        return this.x == other.x && this.y == other.y;
     }
 
-    
+    @Override
+    public String toString() {
+        return "Coord{" + "x=" + x + ", y=" + y + '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return 31 * x + y; // simple hash combining x and y
+    }
 
 }

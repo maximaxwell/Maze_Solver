@@ -2,6 +2,7 @@ package com.mycompany.maze_solver;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.SwingWorker;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -48,6 +49,7 @@ public class Maze extends javax.swing.JFrame {
         costSlider = new javax.swing.JSlider();
         costLabel = new javax.swing.JLabel();
         wallToggleButton = new javax.swing.JToggleButton();
+        timeSlider = new javax.swing.JSlider();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -96,12 +98,14 @@ public class Maze extends javax.swing.JFrame {
             }
         });
 
+        timeSlider.setMinimum(1);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(525, Short.MAX_VALUE)
+                .addContainerGap(527, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(selectBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(selectLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -109,7 +113,8 @@ public class Maze extends javax.swing.JFrame {
                     .addComponent(solveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(costSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(costLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(wallToggleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(wallToggleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(timeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(25, 25, 25))
         );
         jPanel1Layout.setVerticalGroup(
@@ -129,7 +134,9 @@ public class Maze extends javax.swing.JFrame {
                 .addComponent(costLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(wallToggleButton)
-                .addContainerGap(213, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(timeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(175, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -229,15 +236,14 @@ public class Maze extends javax.swing.JFrame {
     }
 
     public void mouseListener() {
-        Grid grid = this.grid;
-        GridHandler handler = new GridHandler(grid);
+        GridHandler handler = new GridHandler(this.grid);
         this.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (!grid.getBounds().contains(e.getX(), e.getY())) {
+                if (!Maze.this.grid.getBounds().contains(e.getX(), e.getY())) {
                     return; // ignore clicks outside grid
                 }
-                Grid newGrid = grid;
+                Grid newGrid = Maze.this.grid;
                 if (startVariablesSelected == false) {
                     newGrid = handler.setValueFromMouseClick(grid, e.getX(), e.getY(), -3);
                     refreshGridWithNew(newGrid);
@@ -251,34 +257,7 @@ public class Maze extends javax.swing.JFrame {
                     endVariablesSelected = true;
                     end = newGrid.getEndPoint();
                     selectLabel.setText("Solving...");
-                    if (selectBox.getSelectedItem().toString().equals("A*")) {
-                        // A* algorithm
-
-                        // End
-                    } else if (selectBox.getSelectedItem().toString().equals("BFS")) {
-                        // BFS algorithm
-                        BFS bfs = new BFS(grid);
-                        Coord current = start;
-                        Coord stepped;
-                        while (!(current.equals(end))) {
-                            // Step function will go in here
-                            stepped = bfs.step();
-                            newGrid = handler.setValueFromIndex(grid, stepped.getX(), stepped.getY(), -2);
-                            refreshGridWithNew(newGrid);
-                            return;
-                        }
-                        // End
-                    } else if (selectBox.getSelectedItem().toString().equals("DFS")) {
-                        // DFS algorithm
-
-                        // End
-                    } else if (selectBox.getSelectedItem().toString().equals("Random")) {
-                        // Random algorithm
-
-                        // End
-                    } else {
-                        System.out.println("An error has occured.");
-                    }
+                    runSolver();
                     return;
                 } else if (costSlider.getValue() != 0 && createWall == false) {
                     newGrid = handler.setValueFromMouseClick(grid, e.getX(), e.getY(), costSlider.getValue() + 1);
@@ -308,6 +287,51 @@ public class Maze extends javax.swing.JFrame {
         );
     }
 
+    private void runSolver() {
+        String selected = selectBox.getSelectedItem().toString();
+
+        SwingWorker<Void, Coord> worker = new SwingWorker<>() {
+            @Override
+            protected Void doInBackground() {
+                if ("BFS".equals(selected)) {
+                    BFS bfs = new BFS(grid);
+                    Coord current = start;
+                    Coord stepped;
+                    while (!current.equals(end) && !current.equals(new Coord(-1, -1))) {
+                        stepped = bfs.step();
+                        System.out.println(stepped);
+                        if (stepped == null) {
+                            continue;
+                        }
+                        publish(stepped);
+                        current = stepped;
+                        try {
+                            Thread.sleep(timeSlider.getValue());
+                        } catch (InterruptedException ignored) {
+                        }
+                    }
+                }
+                // TODO: add A*, DFS, Random here in the same style
+                return null;
+            }
+
+            @Override
+            protected void process(java.util.List<Coord> chunks) {
+                for (Coord stepped : chunks) {
+                    GridHandler handler = new GridHandler(grid);
+                    Grid newGrid = handler.setValueFromIndex(grid, stepped.getX(), stepped.getY(), -2);
+                    refreshGridWithNew(newGrid);
+                }
+            }
+
+            @Override
+            protected void done() {
+                selectLabel.setText("Done!");
+            }
+        };
+        worker.execute();
+    }
+
     public void refreshGridWithNew(Grid newGrid) {
         jPanel1.remove(this.grid);
         this.grid = newGrid;
@@ -323,6 +347,7 @@ public class Maze extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> selectBox;
     private javax.swing.JLabel selectLabel;
     private javax.swing.JButton solveButton;
+    private javax.swing.JSlider timeSlider;
     private javax.swing.JToggleButton wallToggleButton;
     // End of variables declaration//GEN-END:variables
 }

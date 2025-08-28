@@ -1,6 +1,5 @@
 package com.mycompany.maze_solver;
 
-import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -169,11 +168,11 @@ public class Maze extends javax.swing.JFrame {
     }//GEN-LAST:event_randomiseButtonActionPerformed
 
     private void solveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solveButtonActionPerformed
+        startVariablesSelected = false;
+        endVariablesSelected = false;
         start.reset();
         end.reset();
         selectLabel.setText("Select a starting point.");
-        startVariablesSelected = false;
-        endVariablesSelected = false;
     }//GEN-LAST:event_solveButtonActionPerformed
 
     private void costTextChanger(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_costTextChanger
@@ -245,26 +244,29 @@ public class Maze extends javax.swing.JFrame {
                     selectLabel.setText("Select an end point.");
                     startVariablesSelected = true;
                     start = newGrid.getStartPoint();
+                    return;
                 } else if (endVariablesSelected == false) {
                     newGrid = handler.setValueFromMouseClick(grid, e.getX(), e.getY(), -4);
+                    refreshGridWithNew(newGrid);
                     endVariablesSelected = true;
                     end = newGrid.getEndPoint();
                     selectLabel.setText("Solving...");
                     if (selectBox.getSelectedItem().toString().equals("A*")) {
                         // A* algorithm
-                            
+
                         // End
                     } else if (selectBox.getSelectedItem().toString().equals("BFS")) {
                         // BFS algorithm
-                        
-                        
+                        BFS bfs = new BFS(grid);
                         Coord current = start;
-                        System.out.println(current.equals(end));
+                        Coord stepped;
                         while (!(current.equals(end))) {
-                            System.out.println("Looping");
+                            // Step function will go in here
+                            stepped = bfs.step();
+                            newGrid = handler.setValueFromIndex(grid, stepped.getX(), stepped.getY(), -2);
+                            refreshGridWithNew(newGrid);
+                            return;
                         }
-
-                        
                         // End
                     } else if (selectBox.getSelectedItem().toString().equals("DFS")) {
                         // DFS algorithm
@@ -277,6 +279,7 @@ public class Maze extends javax.swing.JFrame {
                     } else {
                         System.out.println("An error has occured.");
                     }
+                    return;
                 } else if (costSlider.getValue() != 0 && createWall == false) {
                     newGrid = handler.setValueFromMouseClick(grid, e.getX(), e.getY(), costSlider.getValue() + 1);
                 } else {

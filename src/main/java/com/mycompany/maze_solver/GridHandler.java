@@ -125,6 +125,29 @@ public class GridHandler {
         return storedGrid;
     }
 
+    public Grid setValueFromIndex(Grid grid, int column, int row, int value) {
+        Grid newGrid = grid;
+        int[][] layout = newGrid.getGridLayout();
+        if (column < 0 | row < 0 | column > newGrid.getColumns() - 1 | row > newGrid.getRows() - 1) {
+            return newGrid;
+        }
+        layout[row][column] = value;
+        newGrid.setGridLayout(layout);
+        return newGrid;
+    }
+
+    public Grid setValueFromIndex(int column, int row, int value) {
+        Grid newGrid = storedGrid;
+        int[][] layout = newGrid.getGridLayout();
+        if (column < 0 | row < 0 | column > newGrid.getColumns() - 1 | row > newGrid.getRows() - 1) {
+            return newGrid;
+        }
+        layout[row][column] = value;
+        newGrid.setGridLayout(layout);
+        storedGrid = newGrid;
+        return storedGrid;
+    }
+
     public int columnFromX(Grid grid, int x) { // Gets the column position from the mouse coords from a given grid
         Grid newGrid = grid;
         float output = Math.round(((x - newGrid.getStartingX()) - 0.5) / newGrid.getPixelSize()) - 1;

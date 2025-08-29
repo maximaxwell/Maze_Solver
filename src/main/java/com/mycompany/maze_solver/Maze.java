@@ -21,6 +21,9 @@ public class Maze extends javax.swing.JFrame {
     private boolean createWall = false;
     private Coord start = new Coord();
     private Coord end = new Coord();
+    long elapsedTime = 0;
+    long startTime = 0;
+    Coord current = null;
 
     /**
      * Creates new form Maze
@@ -171,7 +174,6 @@ public class Maze extends javax.swing.JFrame {
         jPanel1.add(this.grid, java.awt.BorderLayout.CENTER);
         this.revalidate();
         this.repaint();
-        mouseListener();
     }//GEN-LAST:event_randomiseButtonActionPerformed
 
     private void solveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solveButtonActionPerformed
@@ -257,6 +259,7 @@ public class Maze extends javax.swing.JFrame {
                     endVariablesSelected = true;
                     end = newGrid.getEndPoint();
                     selectLabel.setText("Solving...");
+                    startTime = System.currentTimeMillis();
                     runSolver();
                     return;
                 } else if (costSlider.getValue() != 0 && createWall == false) {
@@ -289,7 +292,7 @@ public class Maze extends javax.swing.JFrame {
 
     private void runSolver() {
         String selected = selectBox.getSelectedItem().toString();
-
+        
         SwingWorker<Void, Coord> worker = new SwingWorker<>() {
             @Override
             protected Void doInBackground() {
@@ -326,7 +329,9 @@ public class Maze extends javax.swing.JFrame {
 
             @Override
             protected void done() {
-                selectLabel.setText("Done!");
+                elapsedTime = System.currentTimeMillis() - startTime;
+                int elapsedTimeInSeconds = (int) elapsedTime / 1000;
+                selectLabel.setText("Done in " + elapsedTimeInSeconds + " seconds.");
             }
         };
         worker.execute();

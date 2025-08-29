@@ -5,7 +5,6 @@
 package com.mycompany.maze_solver;
 
 import java.awt.*;
-import java.util.HashSet;
 import javax.swing.*;
 
 /**
@@ -20,13 +19,14 @@ public class Grid extends JPanel {
     private int[][] gridLayout = new int[rows][columns];
     private int startingX = 20;
     private int startingY = 20;
+    private double density = 0.3;
     private Coord startPoint = new Coord();
     private Coord endPoint = new Coord();
 
     public Grid() {
         for (int i = 0; i < columns; i++) {
             for (int j = 0; j < rows; j++) {
-                if (Math.random() <= 0.3) {
+                if (Math.random() <= density) {
                     gridLayout[j][i] = 1; // A wall is created for 30% of the time
                 } else {
                     gridLayout[j][i] = 0; // A cell without a wall is created the other 70%

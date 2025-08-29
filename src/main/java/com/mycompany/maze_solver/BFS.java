@@ -40,97 +40,36 @@ public class BFS {
     }
 
     public Coord step() {
-    if (complete || toVisitNext.isEmpty()) {
-        System.out.println("hello");
-        return new Coord(-1, -1); // signal done
-    }
-    
-
-    Coord current = toVisitNext.poll();
-
-    if (current.equals(end)) {
-        complete = true;
-        return new Coord(-1, -1);
-    }
-
-    int[][] layout = this.grid.getGridLayout();
-    int[][] directions = {{1,0}, {-1,0}, {0,1}, {0,-1}}; // only 4 directions
-
-    for (int[] d : directions) {
-        int newX = current.getX() + d[0];
-        int newY = current.getY() + d[1];
-
-        if (newY >= 0 && newY < layout.length &&
-            newX >= 0 && newX < layout[0].length &&
-            layout[newY][newX] != 1) { // not a wall
-            Coord neighbor = new Coord(newX, newY);
-            if (!visited.containsKey(neighbor)) {
-                visited.put(neighbor, "seen"); // mark visited immediately
-                toVisitNext.add(neighbor);
-            }
+        if (complete || toVisitNext.isEmpty()) {
+            System.out.println("hello");
+            return new Coord(-1, -1); // signal done
         }
-    }
 
-    return current; // return the node we just processed
-}
-    
-    
-    public Coord step(int a) {
-        // This is the core of the BFS class
-        // Moves the BFS algorithm along 1
-        // Will return a "success" object when the goal node is reached
-        // Checks whether the last step found the goal node
-        if (complete) {
+        Coord current = toVisitNext.poll();
+
+        if (current.equals(end)) {
+            complete = true;
             return new Coord(-1, -1);
         }
-        Coord output = null;
-        int[][] layout = this.grid.getGridLayout();
-        Coord current;
-        int column;
-        int row;
-        while (!(toVisitNext.isEmpty()) ) {
-            current = toVisitNext.poll();
-            
-            /* Unsure if I need the code below yet if I dont then also change the while loop
-            if(visited.get(current) != null) {
-                continue; // Value has already been visited so this loop is skipped
-            }
-            */
 
-            if(current.equals(end)) { // If the node to visit next is the goal node
-                complete = true;
-                return new Coord(-1, -1);
-            } else {
-                visited.put(current, current.getX() + ", " + current.getY());
-                column = current.getX();
-                row = current.getY();
-                // Frontier expansion
-                int curColumn;
-                int curRow;
-                for(int i = -1; i <= 1; i++) {
-                    for(int j = -1; j <= 1; j++) {
-                        curColumn = column + i;
-                        curRow = row + j;
-                        if(curColumn > 0 && curRow > 0) {
-                            if(layout[curRow][curColumn] !=  1){
-                                if(visited.get(new Coord(curColumn, curRow)) == null)
-                                toVisitNext.add(new Coord(curColumn, curRow));
-                            }
-                        }
-                        
-                    }             
+        int[][] layout = this.grid.getGridLayout();
+        int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}}; // only 4 directions
+
+        for (int[] d : directions) {
+            int newX = current.getX() + d[0];
+            int newY = current.getY() + d[1];
+
+            if (newY >= 0 && newY < layout.length
+                    && newX >= 0 && newX < layout[0].length
+                    && layout[newY][newX] != 1) { // not a wall
+                Coord neighbor = new Coord(newX, newY);
+                if (!visited.containsKey(neighbor)) {
+                    visited.put(neighbor, "seen"); // mark visited immediately
+                    toVisitNext.add(neighbor);
                 }
-                
-                
-                
-                // End
-                output = current;
-                break;
             }
-            
         }
 
-        return output;
+        return current; // return the node we just processed
     }
-
 }

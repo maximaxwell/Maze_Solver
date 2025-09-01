@@ -64,7 +64,9 @@
                       <Component id="wallToggleButton" max="32767" attributes="0"/>
                       <Component id="timeSlider" pref="0" max="32767" attributes="0"/>
                       <Component id="clearButton" max="32767" attributes="0"/>
-                      <Component id="jButton1" max="32767" attributes="0"/>
+                      <Component id="stopButton" max="32767" attributes="0"/>
+                      <Component id="randomiseCostButton" max="32767" attributes="0"/>
+                      <Component id="totalCostLabel" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               </Group>
@@ -75,7 +77,9 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                   <Component id="selectLabel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="totalCostLabel" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="24" max="32767" attributes="0"/>
                   <Component id="selectBox" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="solveButton" min="-2" max="-2" attributes="0"/>
@@ -92,8 +96,10 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="clearButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="111" max="32767" attributes="0"/>
+                  <Component id="stopButton" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="randomiseCostButton" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -146,7 +152,7 @@
         </Component>
         <Component class="javax.swing.JSlider" name="costSlider">
           <Properties>
-            <Property name="maximum" type="int" value="10"/>
+            <Property name="maximum" type="int" value="9"/>
             <Property name="value" type="int" value="0"/>
           </Properties>
           <Events>
@@ -174,7 +180,7 @@
         </Component>
         <Component class="javax.swing.JSlider" name="timeSlider">
           <Properties>
-            <Property name="minimum" type="int" value="1"/>
+            <Property name="maximum" type="int" value="1000"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="clearButton">
@@ -185,13 +191,32 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clearButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="stopButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="Stop"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stopButtonActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="randomiseCostButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Randomise Cost"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="randomiseCostButtonActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="totalCostLabel">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="0" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Final cost:"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

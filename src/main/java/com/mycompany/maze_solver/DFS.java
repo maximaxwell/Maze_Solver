@@ -28,6 +28,7 @@ public class DFS {
         start = grid.getStartPoint();
         end = grid.getEndPoint();
         toVisitNext.push(start);
+        parentGrid = new Coord[grid.getGridLayout().length][grid.getGridLayout()[0].length];
     }
 
     public Grid getGrid() {
@@ -65,10 +66,60 @@ public class DFS {
                 if (!visited.containsKey(neighbor)) {
                     visited.put(neighbor, "seen"); // mark visited immediately
                     toVisitNext.push(neighbor);
+                    parentGrid[newY][newX] = current;
                 }
             }
         }
 
         return current; // return the node we just processed
     }
+
+    public Stack<Coord> getToVisitNext() {
+        return toVisitNext;
+    }
+
+    public void setToVisitNext(Stack<Coord> toVisitNext) {
+        this.toVisitNext = toVisitNext;
+    }
+
+    public HashMap<Coord, String> getVisited() {
+        return visited;
+    }
+
+    public void setVisited(HashMap<Coord, String> visited) {
+        this.visited = visited;
+    }
+
+    public Coord[][] getParentGrid() {
+        return parentGrid;
+    }
+
+    public void setParentGrid(Coord[][] parentGrid) {
+        this.parentGrid = parentGrid;
+    }
+
+    public boolean isComplete() {
+        return complete;
+    }
+
+    public void setComplete(boolean complete) {
+        this.complete = complete;
+    }
+
+    public Coord getStart() {
+        return start;
+    }
+
+    public void setStart(Coord start) {
+        this.start = start;
+    }
+
+    public Coord getEnd() {
+        return end;
+    }
+
+    public void setEnd(Coord end) {
+        this.end = end;
+    }
+
 }

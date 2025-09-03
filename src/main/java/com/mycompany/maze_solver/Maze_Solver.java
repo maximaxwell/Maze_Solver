@@ -3,8 +3,6 @@
  */
 package com.mycompany.maze_solver;
 
-import java.awt.event.*;
-
 /**
  *
  * @author maxwe
@@ -15,6 +13,5 @@ public class Maze_Solver {
         Maze maze = new Maze();
         maze.pack();
         maze.setVisible(true);
-
     }
 }

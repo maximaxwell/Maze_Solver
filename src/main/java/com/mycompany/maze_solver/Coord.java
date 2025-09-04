@@ -61,7 +61,7 @@ public class Coord {
 
     @Override
     public int hashCode() {
-        return 31 * x + y; // simple hash combining x and y
+        return 73 * x + y; // Hash code which should stop issues as long as the grid isnt too big
     }
 
 }

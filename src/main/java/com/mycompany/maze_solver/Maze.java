@@ -29,6 +29,7 @@ public class Maze extends javax.swing.JFrame {
     private SwingWorker<Void, Coord> worker;
     private BFS bfs = null;
     private DFS dfs = null;
+    private AStar aStar = null;
     private int finalCost = 0;
     private int[][] startingLayout;
 
@@ -82,7 +83,7 @@ public class Maze extends javax.swing.JFrame {
             }
         });
 
-        selectBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A*", "BFS", "DFS", "Random" }));
+        selectBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A*", "BFS", "DFS" }));
 
         selectLabel.setBackground(new java.awt.Color(255, 255, 255));
         selectLabel.setForeground(new java.awt.Color(0, 0, 0));
@@ -249,6 +250,7 @@ public class Maze extends javax.swing.JFrame {
         jPanel1.add(this.grid, java.awt.BorderLayout.CENTER);
         this.revalidate();
         this.repaint();
+        startingLayout = this.grid.getGridLayout();
     }//GEN-LAST:event_randomiseButtonActionPerformed
 
     private void solveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solveButtonActionPerformed
@@ -474,8 +476,24 @@ public class Maze extends javax.swing.JFrame {
                         }
                     }
 
+                } else if ("A*".equals(selected)) {
+                    aStar = new AStar(grid);
+                    Coord current = start;
+                    Coord stepped;
+                    while (!current.equals(end) && !current.equals(new Coord(-1, -1)) && !stop) {
+                        stepped = aStar.step();
+                        if (stepped == null) {
+                            continue;
+                        }
+                        publish(stepped);
+                        current = stepped;
+                        try {
+                            Thread.sleep(timeSlider.getValue());
+                        } catch (InterruptedException ignored) {
+                        }
+                    }
+
                 }
-                // TODO: add A*, DFS, Random here in the same style
 
                 return null;
             }

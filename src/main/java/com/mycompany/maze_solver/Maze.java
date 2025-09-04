@@ -252,6 +252,21 @@ public class Maze extends javax.swing.JFrame {
     }//GEN-LAST:event_randomiseButtonActionPerformed
 
     private void solveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solveButtonActionPerformed
+        if (startingLayout != null) {
+            jPanel1.remove(this.grid);
+            int[][] layout = copy2DArray(startingLayout);
+            for (int i = 0; i < layout.length; i++) {
+                for (int j = 0; j < layout[0].length; j++) {
+                    if (layout[j][i] == -1 || layout[j][i] == -2 || layout[j][i] == -3 || layout[j][i] == -4 || layout[j][i] == -5) {
+                        layout[j][i] = 0;
+                    }
+                }
+            }
+            this.grid.setGridLayout(layout);
+            jPanel1.add(this.grid, java.awt.BorderLayout.CENTER);
+            this.revalidate();
+            this.repaint();
+        }
         stop = false;
         startVariablesSelected = false;
         endVariablesSelected = false;
@@ -290,6 +305,7 @@ public class Maze extends javax.swing.JFrame {
         jPanel1.add(this.grid, java.awt.BorderLayout.CENTER);
         this.revalidate();
         this.repaint();
+        startingLayout = layout;
     }//GEN-LAST:event_clearButtonActionPerformed
 
     private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
@@ -315,6 +331,7 @@ public class Maze extends javax.swing.JFrame {
         jPanel1.add(this.grid, java.awt.BorderLayout.CENTER);
         this.revalidate();
         this.repaint();
+        startingLayout = layout;
     }//GEN-LAST:event_randomiseCostButtonActionPerformed
 
     private void delayLabelChanger(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_delayLabelChanger
@@ -501,7 +518,6 @@ public class Maze extends javax.swing.JFrame {
                     for (int i = 1; i < path.size() - 1; i++) {
                         x = path.get(i).getX();
                         y = path.get(i).getY();
-                        System.out.println(startingLayout[y][x]);
                         if (startingLayout[y][x] > 1) {
                             finalCost = finalCost + startingLayout[y][x] - 1;
                         }
@@ -554,15 +570,17 @@ public class Maze extends javax.swing.JFrame {
         this.revalidate();
         this.repaint();
     }
-    
-    private int[][] copy2DArray(int[][] original) {
-    if (original == null) return null;
-    int[][] copy = new int[original.length][];
-    for (int i = 0; i < original.length; i++) {
-        copy[i] = original[i].clone(); // clone each row
+
+    private int[][] copy2DArray(int[][] original) { // This is used to stop my grid / layout objects being accessed by reference and causing issues
+        if (original == null) {
+            return null;
+        }
+        int[][] copy = new int[original.length][];
+        for (int i = 0; i < original.length; i++) {
+            copy[i] = original[i].clone(); // clone each row
+        }
+        return copy;
     }
-    return copy;
-}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton clearButton;

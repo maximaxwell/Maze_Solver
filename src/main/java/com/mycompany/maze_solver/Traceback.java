@@ -29,17 +29,37 @@ public class Traceback {
         while (x != start.getX() || y != start.getY()) {
             flip.push(new Coord(x, y));
             current = parents[y][x];
-            if(current == null) {
+            if (current == null) {
                 return null;
             }
             x = current.getX();
             y = current.getY();
         }
         flip.push(start);
-        while(!flip.isEmpty()) {
+        while (!flip.isEmpty()) {
             traceList.add(flip.pop()); // Flips the coords around so it goes in order
         }
         return traceList;
+    }
+
+    public int traceCost(int[][] startLayout, Coord start, Coord end) { // Finds the total cost of the path from start to end
+        int totalCost = 0;
+        Coord current;
+        int x = end.getX();
+        int y = end.getY();
+        while (x != start.getX() || y != start.getY()) {
+            current = parents[y][x];
+            if (current == null) {
+                return -1;
+            }
+            if (startLayout[y][x] > 1) {
+                totalCost = totalCost + startLayout[y][x] - 1;
+            }
+            x = current.getX();
+            y = current.getY();
+            
+        }
+        return totalCost;
     }
 
 }

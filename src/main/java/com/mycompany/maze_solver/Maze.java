@@ -29,6 +29,8 @@ public class Maze extends javax.swing.JFrame {
     private SwingWorker<Void, Coord> worker;
     private BFS bfs = null;
     private DFS dfs = null;
+    private int finalCost = 0;
+    private int[][] startingLayout;
 
     /**
      * Creates new form Maze
@@ -385,6 +387,7 @@ public class Maze extends javax.swing.JFrame {
                     end = newGrid.getEndPoint();
                     selectLabel.setText("Solving...");
                     startTime = System.currentTimeMillis();
+                    startingLayout = copy2DArray(newGrid.getGridLayout());
                     runSolver();
                     return;
                 } else if (costSlider.getValue() != 0 && createWall == false) {
@@ -476,6 +479,7 @@ public class Maze extends javax.swing.JFrame {
 
             @Override
             protected void done() {
+                finalCost = 0;
                 elapsedTime = System.currentTimeMillis() - startTime;
                 int elapsedTimeInSeconds = (int) elapsedTime / 1000;
                 selectLabel.setText("Path found in " + elapsedTimeInSeconds + " seconds.");
@@ -486,13 +490,22 @@ public class Maze extends javax.swing.JFrame {
                     if (path == null) {
                         bfs = null;
                         selectLabel.setText("Path not found.");
+                        totalCostLabel.setText("This took " + elapsedTimeInSeconds + " s");
                         return;
                     }
                     GridHandler handler = new GridHandler(grid);
                     Grid newGrid = grid;
                     newGrid = handler.setValueFromIndex(newGrid, path.get(0).getX(), path.get(0).getY(), -3);
+                    int x;
+                    int y;
                     for (int i = 1; i < path.size() - 1; i++) {
-                        newGrid = handler.setValueFromIndex(newGrid, path.get(i).getX(), path.get(i).getY(), -5);
+                        x = path.get(i).getX();
+                        y = path.get(i).getY();
+                        System.out.println(startingLayout[y][x]);
+                        if (startingLayout[y][x] > 1) {
+                            finalCost = finalCost + startingLayout[y][x] - 1;
+                        }
+                        newGrid = handler.setValueFromIndex(newGrid, x, y, -5);
                     }
                     newGrid = handler.setValueFromIndex(newGrid, path.get(path.size() - 1).getX(), path.get(path.size() - 1).getY(), -4);
                     refreshGridWithNew(newGrid);
@@ -503,22 +516,32 @@ public class Maze extends javax.swing.JFrame {
                     Traceback traceback = new Traceback(dfs.getParentGrid());
                     LinkedList<Coord> path = traceback.trace(start, end);
                     if (path == null) {
-                        bfs = null;
+                        dfs = null;
                         selectLabel.setText("Path not found.");
+                        totalCostLabel.setText("This took " + elapsedTimeInSeconds + " s");
                         return;
                     }
                     GridHandler handler = new GridHandler(grid);
                     Grid newGrid = grid;
                     newGrid = handler.setValueFromIndex(newGrid, path.get(0).getX(), path.get(0).getY(), -3);
+                    int x;
+                    int y;
                     for (int i = 1; i < path.size() - 1; i++) {
-                        newGrid = handler.setValueFromIndex(newGrid, path.get(i).getX(), path.get(i).getY(), -5);
+                        x = path.get(i).getX();
+                        y = path.get(i).getY();
+                        if (startingLayout[y][x] > 1) {
+                            finalCost = finalCost + startingLayout[y][x] - 1;
+                        }
+                        newGrid = handler.setValueFromIndex(newGrid, x, y, -5);
                     }
                     newGrid = handler.setValueFromIndex(newGrid, path.get(path.size() - 1).getX(), path.get(path.size() - 1).getY(), -4);
                     refreshGridWithNew(newGrid);
+                    // End
                     dfs = null;
                     // End
                 }
                 selectLabel.setText("Path found in " + elapsedTimeInSeconds + " seconds.");
+                totalCostLabel.setText("Final cost: " + finalCost);
             }
         };
         worker.execute();
@@ -531,6 +554,15 @@ public class Maze extends javax.swing.JFrame {
         this.revalidate();
         this.repaint();
     }
+    
+    private int[][] copy2DArray(int[][] original) {
+    if (original == null) return null;
+    int[][] copy = new int[original.length][];
+    for (int i = 0; i < original.length; i++) {
+        copy[i] = original[i].clone(); // clone each row
+    }
+    return copy;
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton clearButton;

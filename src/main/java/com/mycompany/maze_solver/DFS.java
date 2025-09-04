@@ -41,7 +41,6 @@ public class DFS {
 
     public Coord step() {
         if (complete || toVisitNext.isEmpty()) {
-            System.out.println("hello");
             return new Coord(-1, -1); // signal done
         }
 

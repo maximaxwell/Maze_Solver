@@ -67,6 +67,8 @@ public class Grid extends JPanel {
                     g.fillRect(x, y, pixelSize, pixelSize);
                     g.setColor(Color.GRAY);
                     g.drawRect(x, y, pixelSize, pixelSize);
+                    g.setColor(Color.BLACK);
+                    g.drawString("★", x + pixelSize / 4, y + (pixelSize / 8) * 10);
                     startPoint.setX(j);
                     startPoint.setY(i);
                 } else if (gridLayout[i][j] == -4) {

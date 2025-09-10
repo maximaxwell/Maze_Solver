@@ -573,6 +573,34 @@ public class Maze extends javax.swing.JFrame {
                     // End
                     dfs = null;
                     // End
+                } else if (aStar != null) {
+                    // Traceback routine
+                    Traceback traceback = new Traceback(aStar.getParentGrid());
+                    LinkedList<Coord> path = traceback.trace(start, end);
+                    if (path == null) {
+                        aStar = null;
+                        selectLabel.setText("Path not found.");
+                        totalCostLabel.setText("This took " + elapsedTimeInSeconds + " s");
+                        return;
+                    }
+                    GridHandler handler = new GridHandler(grid);
+                    Grid newGrid = grid;
+                    newGrid = handler.setValueFromIndex(newGrid, path.get(0).getX(), path.get(0).getY(), -3);
+                    int x;
+                    int y;
+                    for (int i = 1; i < path.size() - 1; i++) {
+                        x = path.get(i).getX();
+                        y = path.get(i).getY();
+                        if (startingLayout[y][x] > 1) {
+                            finalCost = finalCost + startingLayout[y][x] - 1;
+                        }
+                        newGrid = handler.setValueFromIndex(newGrid, x, y, -5);
+                    }
+                    newGrid = handler.setValueFromIndex(newGrid, path.get(path.size() - 1).getX(), path.get(path.size() - 1).getY(), -4);
+                    refreshGridWithNew(newGrid);
+                    // End
+                    aStar = null;
+                    // End
                 }
                 selectLabel.setText("Path found in " + elapsedTimeInSeconds + " seconds.");
                 totalCostLabel.setText("Final cost: " + finalCost);

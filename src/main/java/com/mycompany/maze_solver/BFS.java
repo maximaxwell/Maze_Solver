@@ -63,10 +63,10 @@ public class BFS {
             if (newY >= 0 && newY < layout.length
                     && newX >= 0 && newX < layout[0].length
                     && layout[newY][newX] != 1) { // not a wall
-                Coord neighbor = new Coord(newX, newY);
-                if (!visited.containsKey(neighbor)) {
-                    visited.put(neighbor, "seen"); // mark visited
-                    toVisitNext.add(neighbor);
+                Coord neighbour = new Coord(newX, newY);
+                if (!visited.containsKey(neighbour)) {
+                    visited.put(neighbour, "seen"); // mark visited
+                    toVisitNext.add(neighbour);
                     parentGrid[newY][newX] = current;
                 }
             }
